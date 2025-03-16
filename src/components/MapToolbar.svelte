@@ -1,6 +1,6 @@
 <script lang="ts">
     import { AppBar } from '@skeletonlabs/skeleton-svelte';
-    import { RectangleHorizontal, Dot, Waypoints, Circle, Pencil, Hand, Trash2 } from 'lucide-svelte';
+    import { RectangleHorizontal, Dot, Waypoints, Circle, Pencil, Hand, Trash2, Download } from 'lucide-svelte';
     import { type MapMouseEvent } from 'maplibre-gl';
     import { onMount } from 'svelte';
     import { TerraDrawCircleMode, TerraDrawFreehandMode, TerraDrawLineStringMode, TerraDrawPointMode, TerraDrawRectangleMode, TerraDrawSelectMode, TerraDraw } from 'terra-draw';
@@ -10,6 +10,26 @@
     let draw: TerraDraw;
 
     let selectedFeatureId: string | number;
+
+    function download(filename: string, text: string) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
+
+    function saveAsGeojson() {
+        const snapshot = draw.getSnapshot();
+        let featuresAsString = JSON.stringify(snapshot);
+        console.log(featuresAsString);
+        download("paint.geojson", featuresAsString);
+    }
 
     onMount(() => {
         map.on('click', (event: MapMouseEvent) => {
@@ -127,6 +147,9 @@
             </button>
             <button type="button" class="btn btn-sm" onclick={() => draw.setMode('select')}>
                 <Hand size={20} />
+            </button>
+            <button type="button" class="btn btn-sm" onclick={() => saveAsGeojson()}>
+                <Download size={20} />
             </button>
             <button type="button" class="btn btn-sm" onclick={() => draw.removeFeatures(new Array(selectedFeatureId))}>
                 <Trash2 size={20} />
