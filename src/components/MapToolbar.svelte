@@ -114,7 +114,7 @@
                 ],
         });
         draw.start();
-        draw.setMode("rectangle");
+        draw.setMode("select");
         draw.on('select', (id) => {
             const snapshot = draw.getSnapshot()
             const polygon = snapshot.find((feature) => feature.id === id)
