@@ -1,0 +1,1 @@
+export let tileProxyUrl:string = "https://localhost:7196/TileProxy";

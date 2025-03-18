@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import {tileProxyUrl} from "../lib/settings";
     import maplibregl, { type StyleSpecification } from "maplibre-gl";
     import 'maplibre-gl/dist/maplibre-gl.css';
     import MapToolbar from "./MapToolbar.svelte";
@@ -35,7 +36,7 @@
                 "osm": {
                     "type": "raster",
                     "tiles": [
-                        `https://localhost:7196/TileProxy?z={z}&x={x}&y={y}&sessionId=${sessionId}`
+                        `${tileProxyUrl}?z={z}&x={x}&y={y}&sessionId=${sessionId}`
                     ],
                     "tileSize": 256
                 }
